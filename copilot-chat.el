@@ -340,12 +340,23 @@ It can be used to review the magit diff for my change, or other people's"
   (switch-to-buffer (copilot-chat--get-buffer)))
 
 ;;;###autoload
-(defun copilot-chat-display ()
-  "Display copilot chat buffer."
-  (interactive)
+(defun my/copilot-chat-display (&optional prefix)
+  "Display the Copilot chat buffer.
+
+If PREFIX is non-nil, open the chat buffer in a new frame.
+Otherwise, split the current window to the right and
+ display the chat buffer in the other window."
+  (interactive "P")
   (unless (copilot-chat--ready-p)
     (copilot-chat-reset))
-  (copilot-chat--display))
+  (if prefix
+    (progn
+      (select-frame (make-frame-command))
+      (copilot-chat--display))
+    (progn
+      (split-window-right)
+      (other-window 1)
+      (copilot-chat--display))))
 
 ;;;###autoload
 (defun copilot-chat-hide ()
