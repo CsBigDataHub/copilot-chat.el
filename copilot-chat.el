@@ -345,18 +345,21 @@ It can be used to review the magit diff for my change, or other people's"
 
 If PREFIX is non-nil, open the chat buffer in a new frame.
 Otherwise, split the current window to the right and
- display the chat buffer in the other window."
+display the chat buffer in the other window."
   (interactive "P")
   (unless (copilot-chat--ready-p)
     (copilot-chat-reset))
-  (if prefix
-    (progn
-      (select-frame (make-frame-command))
-      (copilot-chat--display))
-    (progn
-      (split-window-right)
-      (other-window 1)
-      (copilot-chat--display))))
+  (let ((buffer (copilot-chat--get-buffer)))
+    (if (get-buffer-window buffer)
+        (select-window (get-buffer-window buffer))
+      (if prefix
+          (progn
+            (select-frame (make-frame-command))
+            (copilot-chat--display))
+        (progn
+          (split-window-right)
+          (other-window 1)
+          (copilot-chat--display))))))
 
 ;;;###autoload
 (defun copilot-chat-hide ()
