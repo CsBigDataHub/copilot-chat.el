@@ -340,7 +340,7 @@ It can be used to review the magit diff for my change, or other people's"
   (switch-to-buffer (copilot-chat--get-buffer)))
 
 ;;;###autoload
-(defun my/copilot-chat-display (&optional prefix)
+(defun copilot-chat-display (&optional prefix)
   "Display the Copilot chat buffer.
 
 If PREFIX is non-nil, open the chat buffer in a new frame.
